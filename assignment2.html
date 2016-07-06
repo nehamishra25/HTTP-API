@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment 2 and 3 combined</title>
+	<script type="text/javascript" src=https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		var mod=angular.module("mod",[]);
+		mod.controller("control",function($scope,$cacheFactory){
+			$scope.cache=$cacheFactory("myCache");
+			$scope.key=[];
+			$scope.add=function(key,val)
+			{
+				if(angular.isUndefined($scope.cache.get(key)))
+				{
+								$scope.cache.put(key,val);
+				        		$scope.key.push(key);
+				        		$scope.name="";
+				        		$scope.age="";
+				}
+        	}
+        	$scope.remove = function(remCacheKey)
+				{
+          			$scope.cache.remove(remCacheKey);
+          			var index = $scope.key.indexOf(remCacheKey);
+  					$scope.key.splice(index, 1);
+        		}
+      		$scope.removeAll = function(){
+          		$scope.cache.removeAll();
+          		$scope.key=[];
+        	} 
+      		$scope.destroy = function(){
+          		$scope.cache.destroy();
+        	}
+			});
+	</script>
+</head>
+<body ng-app="mod" ng-controller="control">
+	<form role="form">
+		<div class="form-group">
+		<label for="Name" class="control-label col-sm-2">Give your name</label>
+		<div class="col-sm-10">
+			<input type="text" id="Name" name="Name" placeholder="Employee Name" required ng-model="name" class="form-control">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="Age" class="control-label col-sm-2">State your age</label>
+		<div class="col-sm-10">
+			<input type="number" id="Age" name="Age" placeholder="Employee Age" required ng-model="age" class="form-control">
+		</div>
+	</div>
+	<div class="form-group">
+		<input type="button" value="Save" ng-click="add(name,age)" class="btn btn-primary form-control" />
+	</div>
+	</form>
+	<div>
+		<h1>Cache Values</h1>
+		<h1 ng-repeat="(key,value) in cache.info()">{{key}}:{{value}}</h1>
+		<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Age</th>						
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="key in key">
+						<td ng-bind="key"></td>
+						<td ng-bind="cache.get(key)"></td>					   
+					</tr>
+				</tbody>
+			</table>
+	</div>
+	<form role="form">
+	<div class="form-group">
+		<label for="key" class="control-label col-sm-2">Enter Key</label>
+		<div class="col-sm-10">
+			<input type="text" id="key" name="Name" placeholder="cache key" required ng-model="remCacheKey" class="form-control">
+		</div>
+	</div>
+	<!-- The stated three activities of Assignment 3 are mentioned below -->
+  	<button type="button" ng-click="remove(remCacheKey)" class="btn btn-warning">Remove</button>
+  	<br><br>
+  	<button type="button" ng-click="removeAll()" class="btn btn-danger">RemoveAll</button>
+  	<button type="button" ng-click="destroy()" class="btn btn-danger">Destroy</button>
+	</form>
+
+</body>
+</html>
