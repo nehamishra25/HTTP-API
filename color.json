@@ -18,7 +18,7 @@
         {
             "colorName":"black",
             "hexValue":"#000"
-        }
+        },
         {
             "colorName":"red",
             "hexValue":"#f00"
@@ -30,5 +30,5 @@
         {
             "colorName":"blue",
             "hexValue":"#00f"
-        },
+        }
     ]
